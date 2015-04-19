@@ -1,4 +1,6 @@
-# Topics
+# d3.js for coders and analysts: intro
+
+## Schedule
 
 ![](schedule.png)
 
