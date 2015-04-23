@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+body {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  font: 10px sans-serif;
+}
+svg text {
+  fill: #2c3e50;
+  font-size: 12px;
+  font-weight: bold;
+}
+.layout {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.layout .column {
+  width: 50%;
+  height: 100%;
+  display: block;
+  float: left;
+  background: orange;
+  overflow: hidden;
+}
+
+.layout .column.left {
+  background: #ecf0f1;
+}
+
+.layout .column.right {
+  background: #34495e;
+}
+
+</style>
+<head>
+</head>
+<body>
+<script src="d3.v3.js" charset="utf-8"></script>
+<script>
+
+(function() {
+  var d3_selection_prototype_select = d3.selection.prototype.select
+  d3.selection.prototype.select = function() {
+    var selector = d3_selection_prototype_select.apply(this, arguments)
+    selectionHook(selector)
+    return selector
+  }
+
+  d3_select = d3.select
+  d3.select = function() {
+    var selector = d3_select.apply(this, arguments)
+    selectionHook(selector)
+    return selector
+  }
+
+  var timerId = null
+  function selectionHook(selector) {
+    var element = selector.node()
+    var childOfNodeTree = false
+    if (element) {
+      while(element.parentElement) {
+        if (element.parentElement.classList.contains('node-tree')) {
+          childOfNodeTree = true
+        }
+        element = element.parentElement
+      }
+      if (!childOfNodeTree) {
+        if (timerId) {
+          clearTimeout(timerId)
+        }
+        timerId = setTimeout(function() {
+          timerId = null
+          updateTree()
+        }, 0)
+      }
+    }
+  }
+})()
+
+var duration = 750
+var i = 0
+var updateTree = function() {}
+var body = d3.select('body')
+var layout = body.append('div').attr('class', 'layout')
+var columns = layout.selectAll('.column').data(['left', 'right'])
+  .enter().append('div')
+    .attr('class', function(d) { return 'column ' + d})
+var leftColumn = columns.filter(function(d) { return d === 'left'})
+var rightColumn = columns.filter(function(d) { return d === 'right'})
+
+// Initialize the example SVG
+
+var stageWidth = leftColumn.node().clientWidth
+var stageHeight = leftColumn.node().clientHeight
+var stage = leftColumn.append('svg').attr('class', 'stage').datum(undefined)
+  .attr({
+    width: stageWidth + 'px',
+    height: stageHeight + 'px',
+  })
+
+function getLatestTreeSpec(node) {
+  var tree = (function recurse(node, path) {
+    var node = {
+      tagName: node.tagName,
+      datum: node.__data__,
+      key: path,
+      children: [].slice.call(node.childNodes).map(function(child, index) {
+        return recurse(child, path + index + '/')
+      })
+    }
+    return node
+  })(node, '/')
+  return tree
+}
+
+;(function(container) {
+  var cWidth = container.clientWidth
+  var cHeight = container.clientHeight
+
+  var margin = {top: 80, right: 120, bottom: 20, left: 120}
+
+  var nodeTree = rightColumn.append('svg').attr('class', 'node-tree')
+    .attr({width: cWidth + 'px', height: cHeight + 'px'})
+      .append('g').attr({
+        transform: 'translate(' + [margin.left, margin.top] + ')',
+      })
+
+  var width = cWidth - margin.left - margin.right
+  var height = cHeight - margin.top - margin.bottom
+
+  var treeLayout = d3.layout.tree().size([width, height])
+
+  var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.x, d.y] })
+
+  function update() {
+
+    var root = getLatestTreeSpec(stage.node())
+    root.x0 = 0
+    root.y0 = width / 2
+
+    var nodes = treeLayout.nodes(root).reverse()
+    var links = treeLayout.links(nodes)
+
+    nodes.forEach(function(d) { d.y = d.depth * 130})
+
+    var node = nodeTree.selectAll('g.node')
+      .data(nodes, function(d) { return d.key})
+
+    var svgNode = nodeTree.selectAll('g.node').filter(function(d) { return d.tagName === 'svg'})
+
+    var nodeEnter = node.enter().append('g')
+      .attr({
+        class: 'node',
+        transform: function(d) {
+          return 'translate(' + [d.x, d.y] + ')'
+        },
+      })
+
+    nodeEnter.append('circle')
+      .attr({
+        class: 'element',
+        r: 0,
+        transform: 'translate(0, -20)',
+      })
+      .style('fill', '#f1c40f')
+      .style('stroke', '#f39c12')
+
+    nodeEnter.append('circle')
+      .attr({
+        class: 'datum',
+        r: 0,
+        transform: 'translate(0, 20)',
+      })
+      .style('fill', '#e67e22')
+      .style('stroke', '#d35400')
+
+    nodeEnter.append('text')
+      .attr({
+        transform: 'translate(0, -17)',
+        class: 'tagName',
+      })
+      .style({
+        'text-anchor': 'middle',
+      })
+
+
+    nodeEnter.append('text')
+      .attr({
+        transform: 'translate(0, 23)',
+        class: 'datum',
+      })
+      .style({
+        'text-anchor': 'middle',
+      })
+
+    // Transition nodes to their new position.
+    var nodeUpdate = node.transition().duration(duration)
+      .attr('transform', function(d) {
+        return 'translate(' + d.x + ',' + d.y + ')'
+      })
+
+
+    nodeUpdate.select('text.datum')
+      .text(function(d) { return JSON.stringify(d.datum)})
+
+    nodeUpdate.selectAll('circle').attr('r', 30)
+
+    nodeUpdate.select('text.tagName')
+      .text(function(d) { return '<' + d.tagName + '>'})
+
+    var nodeExit = node.exit()
+      .transition().duration(duration)
+      .style({opacity: 0}).remove()
+
+    // Update the links…
+    var link = nodeTree.selectAll('path.link')
+      .data(links, function(d) { return d.target.key })
+
+    // Enter any new links at the parent's previous position.
+    link.enter().insert('path', 'g')
+        .attr('class', 'link')
+        .attr('d', function(d) {
+          var o = {x: root.y0, y: root.x0}
+          return diagonal({source: d.source, target: d.source})
+        }).style({
+          fill: 'none',
+          stroke: '#ccc',
+          'stroke-width': '10px',
+        })
+
+    // Transition links to their new position.
+    link.transition().duration(duration).attr('d', diagonal)
+
+    // Transition exiting nodes to the parent's new position.
+    link.exit().transition().duration(duration)
+      .attr('d', function(d) {
+        var o = {x: root.x, y: root.y}
+        return diagonal({source: o, target: o})
+      }).remove()
+
+    // Stash the old positions for transition.
+    nodes.forEach(function(d) { d.x0 = d.x, d.y0 = d.y })
+  }
+
+  update()
+
+  updateTree = function() { update() }
+
+})(rightColumn.node())
+</script>
+</body>
+</html>
