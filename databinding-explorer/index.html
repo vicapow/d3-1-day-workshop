@@ -257,6 +257,11 @@ function getLatestTreeSpec(node) {
   updateTree = function() { update() }
 
 })(rightColumn.node())
+
+console.log("Now try running a d3 selctor and watch your updates be visualized in the tree to the right. \nExample: d3.select('svg').selectAll('circle').data([100, 200, 300]).enter().append('circle').attr({r: 50, cx: function(d) { return d }, cy: 300})")
+
+alert('pull up the console for more info!')
+
 </script>
 </body>
 </html>
