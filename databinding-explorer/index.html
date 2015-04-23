@@ -62,6 +62,15 @@ svg text {
     return selector
   }
 
+  d3_selection_prototype_transition = d3.selection.prototype.transition
+  d3.selection.prototype.transition = function() {
+    var transition = d3_selection_prototype_transition.apply(this, arguments)
+    transition.each('end', function() {
+      selectionHook(d3.select(this))
+    })
+    return transition
+  }
+
   var timerId = null
   function selectionHook(selector) {
     var element = selector.node()
