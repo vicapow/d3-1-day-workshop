@@ -139,9 +139,18 @@ function getLatestTreeSpec(node) {
 
   var nodeTree = rightColumn.append('svg').attr('class', 'node-tree')
     .attr({width: cWidth + 'px', height: cHeight + 'px'})
-      .append('g').attr({
-        transform: 'translate(' + [margin.left, margin.top] + ')',
-      })
+      .append('g')
+      .attr({transform: 'translate(' + [margin.left, margin.top] + ')'})
+
+  var filter = nodeTree.append('filter').attr({id: 'dropshadow'})
+  filter.append('feGaussianBlur').attr({in: 'SourceAlpha', stdDeviation: '3'})
+  filter.append('feOffset').attr({dx: 1, dy: 1, result: 'offsetblue'})
+  var feComponentTransfer = filter.append('feComponentTransfer')
+  feComponentTransfer.append('feFuncA')
+    .attr({type: 'linear', slope: '0.2'})
+  var feMerge = filter.append('feMerge')
+  feMerge.append('feMergeNode')
+  feMerge.append('feMergeNode').attr({in: 'SourceGraphic'})
 
   var width = cWidth - margin.left - margin.right
   var height = cHeight - margin.top - margin.bottom
@@ -171,58 +180,41 @@ function getLatestTreeSpec(node) {
       .attr({
         class: 'node',
         transform: function(d) {
-          return 'translate(' + [d.x, d.y] + ')'
+          return 'translate(' + [d.x, d.y] + ') scale(0.01) rotate(90)'
         },
-      })
+      }).style({opacity: 0, filter: 'url(#dropshadow)'})
+
+    nodeEnter.append('circle').attr({r: 45}).style('fill', '#ecf0f1')
 
     nodeEnter.append('circle')
-      .attr({
-        class: 'element',
-        r: 0,
-        transform: 'translate(0, -20)',
-      })
+      .attr({class: 'element', r: 20, transform: 'translate(0, -20) scale(1.7, 1)'})
       .style('fill', '#f1c40f')
       .style('stroke', '#f39c12')
 
     nodeEnter.append('circle')
-      .attr({
-        class: 'datum',
-        r: 0,
-        transform: 'translate(0, 20)',
-      })
+      .attr({class: 'datum', r: 20, transform: 'translate(0, 20) scale(1.7, 1)'})
       .style('fill', '#e67e22')
       .style('stroke', '#d35400')
 
     nodeEnter.append('text')
-      .attr({
-        transform: 'translate(0, -17)',
-        class: 'tagName',
-      })
-      .style({
-        'text-anchor': 'middle',
-      })
+      .attr({transform: 'translate(0, -17)', class: 'tagName'})
+      .style({'text-anchor': 'middle'})
 
 
     nodeEnter.append('text')
-      .attr({
-        transform: 'translate(0, 23)',
-        class: 'datum',
-      })
-      .style({
-        'text-anchor': 'middle',
-      })
+      .attr({transform: 'translate(0, 23)', class: 'datum'})
+      .style({'text-anchor': 'middle'})
 
     // Transition nodes to their new position.
     var nodeUpdate = node.transition().duration(duration)
       .attr('transform', function(d) {
-        return 'translate(' + d.x + ',' + d.y + ')'
-      })
+        return 'translate(' + d.x + ',' + d.y + ') scale(1) rotate(0)'
+      }).style({opacity: 1})
 
 
     nodeUpdate.select('text.datum')
-      .text(function(d) { return JSON.stringify(d.datum)})
+      .text(function(d) { return JSON.stringify(d.datum) || 'undefined'})
 
-    nodeUpdate.selectAll('circle').attr('r', 30)
 
     nodeUpdate.select('text.tagName')
       .text(function(d) { return '<' + d.tagName + '>'})
@@ -245,6 +237,7 @@ function getLatestTreeSpec(node) {
           fill: 'none',
           stroke: '#ccc',
           'stroke-width': '10px',
+          filter: 'url(#dropshadow)',
         })
 
     // Transition links to their new position.
