@@ -34,7 +34,7 @@ var slug = window.location.hash.slice(1)
 var defaultContent = '<!DOCTYPE html><html></html>'
 
 if (slug)
-  d3.text('/examples/' + slug + '.html', function(err, res) {
+  d3.text('./examples/' + slug + '.html', function(err, res) {
     gotContent(err ? defaultContent : res)
   })
 else gotContent(defaultContent)
@@ -89,7 +89,7 @@ function gotContent(content) {
   var updateHTML = debounce(function updateHTML() {
       var template = htmlCM.getValue()
       console.log('template', template)
-      d3.xhr('/examples/' + slug + '.html')
+      d3.xhr('./examples/' + slug + '.html')
         .header('Content-Type', 'text/html')
         .post(template, function(err, res) {
           if(err) throw err
