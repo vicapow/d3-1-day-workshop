@@ -24,12 +24,12 @@ flower.attr('transform', function() {
 
 flower.selectAll('g')
   .data(d3.range(n)).enter().append('g')
-  	.attr('transform', function(d) {
+    .attr('transform', function(d) {
       var rotation = d3.round(d / n * 360, 2);
-  		return 'rotate(' + rotation + ')';
+      return 'rotate(' + rotation + ')';
     })
-		.append('circle')
-		.attr({
+    .append('circle')
+    .attr({
       r: 60,
       transform: 'translate(40, 0) scale(1.5, 1)',
       fill: '#f1c40f',

@@ -10,6 +10,6 @@ svg.append('circle')
   .duration(1000)
   .ease('bounce')
   .attr({
-  	r: r,
-  	transform: 'translate(200, ' + (height - r) + ')'
+    r: r,
+    transform: 'translate(200, ' + (height - r) + ')'
   })

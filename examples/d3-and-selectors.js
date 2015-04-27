@@ -2,9 +2,34 @@ var width = 512;
 var height = 600;
 var svg = d3.select('body').append('svg')
   .attr({width: width + 'px', height: height + 'px'});
+var color = d3.scale.category10()
 
-svg.append('circle')
+svg.selectAll('circle').data(d3.range(100))
+  .enter()
+  .append('circle')
   .attr({
-    r: 100,
-    transform: 'translate(200, 200)'
-  });
+    r: function() { return Math.random() * 40 + 40 },
+    transform: function() {
+      var pos = [
+        width * Math.random(),
+        height * Math.random()
+      ]
+      return 'translate(' + pos + ')'
+    },
+  }).style({
+    fill: function(d, i) { return color(i) },
+    'fill-opacity': 0.4,
+  })
+  .transition()
+  .duration(1000)
+  .attr({
+    r: function() { return Math.random() * 10 },
+    transform: function() {
+      var pos = [
+        width * Math.random(),
+        height * Math.random()
+      ]
+      return 'translate(' + pos + ')'
+    },
+  })
+
