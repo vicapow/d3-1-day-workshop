@@ -187,22 +187,22 @@ function getLatestTreeSpec(node) {
     nodeEnter.append('circle').attr({r: 45}).style('fill', '#ecf0f1')
 
     nodeEnter.append('circle')
-      .attr({class: 'element', r: 20, transform: 'translate(0, -20) scale(1.7, 1)'})
+      .attr({class: 'element', r: 20, transform: 'translate(0, -15) scale(1.7, 1)'})
       .style('fill', '#f1c40f')
       .style('stroke', '#f39c12')
 
     nodeEnter.append('circle')
-      .attr({class: 'datum', r: 20, transform: 'translate(0, 20) scale(1.7, 1)'})
+      .attr({class: 'datum', r: 20, transform: 'translate(0, 15) scale(1.7, 1)'})
       .style('fill', '#e67e22')
       .style('stroke', '#d35400')
 
     nodeEnter.append('text')
-      .attr({transform: 'translate(0, -17)', class: 'tagName'})
+      .attr({transform: 'translate(0, -12)', class: 'tagName'})
       .style({'text-anchor': 'middle'})
 
 
     nodeEnter.append('text')
-      .attr({transform: 'translate(0, 23)', class: 'datum'})
+      .attr({transform: 'translate(0, 19)', class: 'datum'})
       .style({'text-anchor': 'middle'})
 
     // Transition nodes to their new position.

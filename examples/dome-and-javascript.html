@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../node_modules/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="../node_modules/codemirror/theme/twilight.css">
+<style>
+html {
+
+}
+body {
+  overflow: hidden;
+}
+
+.run-btn {
+  position: absolute;
+  right: 0px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  transition: all 0.1s;
+  background: #27ae60;
+  color: #2c3e50;
+  margin: 20px;
+  padding: 10px;
+}
+
+iframe.stage {
+  background-color: #ecf0f1;
+  border: none;
+}
+
+.run-btn:active {
+  box-shadow: inset black 2px 2px 10px;
+}
+
+.js-editor-container, .html-editor-container {
+  font-size: 14px;
+}
+
+</style>
+<body>
+</body>
+<script id="d3-script-tag" src="../scripts/d3.v3.js"></script>
+<script src="../scripts/d3.selection.dispatcher.js"></script>
+<script src="../scripts/debounce.js"></script>
+<script src="../node_modules/codemirror/lib/codemirror.js"></script>
+<script src="../node_modules/codemirror/mode/javascript/javascript.js"></script>
+<script src="../node_modules/codemirror/mode/xml/xml.js"></script>
+<script src="../scripts/beautify-html.js"></script>
+<script>
+'use strict'
+var width = window.innerWidth, height = window.innerHeight
+var body = d3.select('body')
+
+var main = body.append('div')
+  .style({
+    width: width + 'px',
+    height: height + 'px',
+    position: 'absolute',
+    top: '0px',
+    left: '0px',
+  })
+
+var iframe = main.append('iframe').classed('stage', true)
+  .attr({width: width / 2 + 'px', height: height + 'px'})
+
+var jsEditorContainer = main.append('div').classed('js-editor-container', true)
+  .style({
+    width: width / 2 + 'px', height: height / 2 + 'px',
+    position: 'absolute',
+    top: 0,
+    left: width / 2 + 'px',
+    border: 'none',
+  })
+
+var jsCM = CodeMirror(jsEditorContainer.node(), {
+  tabSize: 2,
+  value: (function() {
+    var w = width / 2
+    var h = height
+    return "var width = " + w + ";\n"
+      + "var height = " + h + ";\n"
+      + "var svg = d3.select('body').append('svg')\n"
+          + "\t.attr({width: width + 'px', "
+          +          "height: height + 'px'});\n"
+  })(),
+  mode:  'javascript',
+  lineNumbers: true,
+  theme: 'twilight',
+})
+
+jsCM.setSize(width / 2, height / 2)
+
+jsCM.on('change', function() {
+  console.log('changed js editor!')
+  runCode()
+})
+
+var htmlEditorContainer = main.append('div').classed('html-editor-container', true)
+  .style({
+    width: width / 2 + 'px', height: height / 2 + 'px',
+    position: 'absolute',
+    top: height / 2 + 'px',
+    left: width / 2 + 'px',
+    border: 'none',
+  })
+
+var htmlCM = CodeMirror(htmlEditorContainer.node(), {
+  tabSize: 2,
+  value: (function() {
+    var w = width / 2
+    var h = height
+    return ""
+  })(),
+  mode: 'xml',
+  readOnly: true,
+  lineNumbers: true,
+})
+
+htmlCM.setSize(width / 2, height / 2)
+
+htmlCM.on('change', function() {
+  console.log('changed html editor')
+})
+
+var d3Src
+d3.text('../scripts/d3.v3.js', function(err, res) {
+  if (err) throw err
+  d3Src = res
+})
+
+var d3SelectionDispatcherSrc
+d3.text('../scripts/d3.selection.dispatcher.js', function(err, res) {
+  if (err) throw err
+  d3SelectionDispatcherSrc = res
+})
+
+function iframeInit() {
+  iframe.node().contentWindow.d3SelectionDispatcher
+    .on('afterSelection', iframeWasUpdated)
+  iframeWasUpdated()
+}
+
+function iframeWasUpdated() {
+  var container = document.createElement('div')
+  var svgClone = d3.select(d3.select('iframe').node().contentDocument.body)
+    .select('svg').node()
+  if (!svgClone) {
+    return
+  }
+  container.appendChild(svgClone.cloneNode(true))
+  var html = style_html(container.innerHTML, {
+    'indent_size': 2,
+    'indent_char': ' ',
+    'max_char': 78,
+    'brace_style': 'expand',
+    'unformatted': ['a', 'sub', 'sup', 'b', 'i', 'u']
+  })
+  htmlCM.setValue(html)
+}
+
+var blobUrl
+var runCode = debounce(function runCode() {
+    var code = jsCM.getValue()
+    var template = '<!DOCTYPE html>'
+      + '<body style="margin:0"></body>\n'
+      + '<' + 'meta charset="utf-8">\n'
+      + '<' + 'script>' + d3Src + '<' + '/script>\n'
+      + '<' + 'script>' + d3SelectionDispatcherSrc + '<' + '/script>\n'
+      + '<' + 'script>' + code + '<' + '/script>\n'
+      + '<' + 'script>' + 'parent.iframeInit()' + '<' + '/script>\n'
+    + '</html>'
+    //remove the last instance
+    window.URL.revokeObjectURL(blobUrl)
+    var blob = new Blob([template], {type: 'text/html'})
+    blobUrl = URL.createObjectURL(blob)
+    iframe.node().src = blobUrl
+}, 1000)
+
+main.append('button').classed('run-btn', true).text('run')
+  .style('bottom', height / 2 + 'px')
+  .on('click', runCode)
+
+setTimeout(runCode, 100)
+
+</script>
+</html>

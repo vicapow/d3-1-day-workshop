@@ -1,0 +1,26 @@
+{
+  "name": "d3-intro-workshop",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vicapow/d3-1-day-workshop.git"
+  },
+  "author": "Victor Powell <vicapow@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vicapow/d3-1-day-workshop/issues"
+  },
+  "homepage": "https://github.com/vicapow/d3-1-day-workshop",
+  "dependencies": {
+    "codemirror": "^5.2.0",
+    "express": "^4.12.3",
+    "mkdirp": "^0.5.0"
+  }
+}
