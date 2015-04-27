@@ -204,11 +204,13 @@ function gotContent(content) {
           + '* { box-sizing: border-box }\n'
         + '</' + 'style>\n'
       + '</html>'
-      d3.xhr('/examples/' + slug + '.js')
-        .header('Content-Type', 'text/javascript')
-        .post(code, function(err, res) {
-          if(err) throw err
-        })
+
+      if (slug)
+        d3.xhr('/examples/' + slug + '.js')
+          .header('Content-Type', 'text/javascript')
+          .post(code, function(err, res) {
+            if(err) throw err
+          })
       //remove the last instance
       window.URL.revokeObjectURL(blobUrl)
       var blob = new Blob([template], {type: 'text/html'})
