@@ -72,7 +72,7 @@ var defaultContent = (function() {
 })()
 
 if (slug)
-  d3.text('examples/' + slug + '.js', function(err, res) {
+  d3.text('./examples/' + slug + '.js', function(err, res) {
     gotContent(err ? defaultContent : res)
   })
 else gotContent(defaultContent)
@@ -206,7 +206,7 @@ function gotContent(content) {
       + '</html>'
 
       if (slug)
-        d3.xhr('examples/' + slug + '.js')
+        d3.xhr('./examples/' + slug + '.js')
           .header('Content-Type', 'text/javascript')
           .post(code, function(err, res) {
             if(err) throw err
