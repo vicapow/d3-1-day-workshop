@@ -1,0 +1,37 @@
+<pre>
+  <code>
+    // Typical getter/setter API
+    class Dog {
+      private String bark;
+      public function getBark(): String {
+        return this.bark;
+      }
+      public function setBark(bark): void {
+        this.bark = bark;
+      }
+    }
+    var dog = new Dog();
+    dog.setBark('Woof woof!');
+    print(dog.getBark());
+	</code>
+</pre>
+
+<pre>
+	<code>
+    // Chainable API
+    class Dog {
+      private _bark;
+      public function bark(bark) {
+        if (arguments.length > 0) {
+          // Set my bark, return me.
+          this._bark = bark;
+          return this;
+        } else {
+          // return my bark.
+          return this._bark;
+        }
+      }
+    }
+    print(new Dog()).bark('Woof Woof!').bark());
+	</code>
+</pre>

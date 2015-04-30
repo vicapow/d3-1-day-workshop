@@ -18,10 +18,11 @@ svg.selectAll('circle').data(d3.range(100))
     },
   }).style({
     fill: function(d, i) { return color(i) },
-    'fill-opacity': 0.4,
+    'fill-opacity': 0.0,
   })
   .transition()
   .duration(1000)
+  .ease('cubic-out')
   .attr({
     r: function() { return Math.random() * 10 },
     transform: function() {
@@ -31,5 +32,8 @@ svg.selectAll('circle').data(d3.range(100))
       ]
       return 'translate(' + pos + ')'
     },
+  }).style({
+    'fill-opacity': 0.4,
   })
+
 

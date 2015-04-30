@@ -15,7 +15,7 @@ app.post('/examples/:slug.js', textParser, save.bind(this, 'js'))
 app.post('/examples/:slug.html', textParser, save.bind(this, 'html'))
 
 function save(ext, req, res, next) {
-  if (!req.body) res.sendStatus(400)
+  if (!req.body) return res.sendStatus(400)
   var body = req.body
   var filename = path.join('examples/', req.params.slug + '.' + ext)
   if (ext === 'js') body = body.replace('\t', '  ')

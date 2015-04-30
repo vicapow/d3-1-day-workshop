@@ -7,14 +7,14 @@ var d3SelectionDispatcher = d3.dispatch('afterSelection')
   var d3_selection_prototype_select = d3.selection.prototype.select
   d3.selection.prototype.select = function() {
     var selector = d3_selection_prototype_select.apply(this, arguments)
-    selectionHook(selector)
+    selectionUpdateHook(selector)
     return selector
   }
 
   var d3_select = d3.select
   d3.select = function() {
     var selector = d3_select.apply(this, arguments)
-    selectionHook(selector)
+    selectionUpdateHook(selector)
     return selector
   }
 
@@ -22,19 +22,22 @@ var d3SelectionDispatcher = d3.dispatch('afterSelection')
   d3.selection.prototype.transition = function() {
     var transition = d3_selection_prototype_transition.apply(this, arguments)
     transition.each('end', function() {
-      selectionHook(d3.select(this))
+      console.log('transition end!')
+      selectionUpdateHook(d3.select(this))
     })
     return transition
   }
 
   var timerId = null
-  function selectionHook(selector) {
+  function selectionUpdateHook(selector) {
     var element = selector.node()
     var childOfNodeTree = false
     if (element) {
       while(element.parentElement) {
+        // TODO: change `node-tree` to something like `__node_tree__`
         if (element.parentElement.classList.contains('node-tree')) {
           childOfNodeTree = true
+          break
         }
         element = element.parentElement
       }
@@ -45,7 +48,7 @@ var d3SelectionDispatcher = d3.dispatch('afterSelection')
         timerId = setTimeout(function() {
           timerId = null
           d3SelectionDispatcher.afterSelection()
-        }, 0)
+        }, 100)
       }
     }
   }

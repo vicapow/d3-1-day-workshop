@@ -23,6 +23,7 @@ body {
   color: #2c3e50;
   margin: 10px;
   padding: 10px;
+  z-index: 10;
 }
 
 .js-editor-error {
@@ -115,6 +116,7 @@ function gotContent(content) {
     mode:  'javascript',
     lineNumbers: true,
     theme: 'twilight',
+    lineWrapping: true,
   })
 
   jsCM.setSize(width / 2, height / 2)
@@ -143,6 +145,7 @@ function gotContent(content) {
     mode: 'xml',
     readOnly: true,
     lineNumbers: true,
+    lineWrapping: true,
   })
 
   htmlCM.setSize(width / 2, height / 2)
@@ -150,18 +153,27 @@ function gotContent(content) {
   // htmlCM.on('change', function() {
   //   console.log('changed html editor')
   // })
-
-  var d3Src
-  d3.text('scripts/d3.v3.js', function(err, res) {
-    if (err) throw err
-    d3Src = res
-  })
-
-  var d3SelectionDispatcherSrc
-  d3.text('scripts/d3.selection.dispatcher.js', function(err, res) {
-    if (err) throw err
-    d3SelectionDispatcherSrc = res
-  })
+  
+  // Request the script src files.
+  var gotAllScripts = false
+  var sandboxScripts = [
+    {url: 'scripts/d3.v3.js', src: null},
+    {url: 'scripts/d3.selection.dispatcher.js', src: null}
+  ]
+  ;(function() {
+    var toGoCount = sandboxScripts.length
+    sandboxScripts.forEach(function(script) {
+      d3.text(script.url, function(err, res) {
+        if (err) throw err
+        script.src = res
+        if (!--toGoCount) done()
+      })
+    })
+    function done() {
+      gotAllScripts = true
+      runCode()
+    }
+  })()
 
   window.iframeInit = function iframeInit() {
     iframe.node().contentWindow.d3SelectionDispatcher
@@ -191,13 +203,26 @@ function gotContent(content) {
 
   var blobUrl
   var runCode = debounce(function runCode() {
+      if (!gotAllScripts) return
       var code = jsCM.getValue()
-      var template = '<!DOCTYPE html>'
+      var template = '<!DOCTYPE html>\n'
         + '<body></body>\n'
         + '<' + 'meta charset="utf-8">\n'
-        + '<' + 'script>' + d3Src + '<' + '/script>\n'
-        + '<' + 'script>' + d3SelectionDispatcherSrc + '<' + '/script>\n'
-        + '<' + 'script> try { eval(' + JSON.stringify(code) + '); parent.iframeError(""); } catch(e) { parent.iframeError(e.message); }<' + '/script>\n'
+        sandboxScripts.forEach(function(script) {
+          template = template
+            + '<' + 'script>'
+              + script.src
+            + '<' + '/script>\n'
+        })
+      template = template
+        + '<' + 'script> '
+          + 'try { '
+            + 'eval(' + JSON.stringify(code) + ');'
+            + 'parent.iframeError(""); '
+          + '} catch(e) { '
+            + 'parent.iframeError(e.message); '
+          + '}'
+        + '<' + '/script>\n'
         + '<' + 'script>' + 'parent.iframeInit()' + '<' + '/script>\n'
         + '<' + 'style>'
           + 'body { margin: 0; overflow: hidden }\n'
@@ -218,7 +243,7 @@ function gotContent(content) {
       iframe.node().src = blobUrl
   }, 500)
 
-  main.append('button').classed('run-btn', true).text('rerun')
+  main.append('button').classed('run-btn', true).text('clear and start over')
     .style({
       right: width / 2 + 'px',
       bottom: height / 2 + 'px',

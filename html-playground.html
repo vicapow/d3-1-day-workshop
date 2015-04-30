@@ -23,7 +23,9 @@ iframe {
 <script src="scripts/d3.v3.js"></script>
 <script src="scripts/debounce.js"></script>
 <script src="node_modules/codemirror/lib/codemirror.js"></script>
+<script src="node_modules/codemirror/mode/javascript/javascript.js"></script>
 <script src="node_modules/codemirror/mode/xml/xml.js"></script>
+<script src="node_modules/codemirror/mode/htmlmixed/htmlmixed.js"></script>
 <script>
 'use strict'
 
@@ -74,9 +76,10 @@ function gotContent(content) {
   var htmlCM = CodeMirror(htmlEditorContainer.node(), {
     tabSize: 2,
     value: content,
-    mode:  'xml',
+    mode:  'htmlmixed',
     lineNumbers: true,
     theme: 'twilight',
+    lineWrapping: true,
   })
 
   htmlCM.setSize(width / 2, height)
@@ -88,12 +91,13 @@ function gotContent(content) {
   var blobUrl
   var updateHTML = debounce(function updateHTML() {
       var template = htmlCM.getValue()
-      console.log('template', template)
       d3.xhr('./examples/' + slug + '.html')
         .header('Content-Type', 'text/html')
         .post(template, function(err, res) {
           if(err) throw err
         })
+      template = template.replace('src="/scripts',
+        'src="http://localhost:3000/scripts')
       //remove the last instance
       window.URL.revokeObjectURL(blobUrl)
       var blob = new Blob([template], {type: 'text/html'})
