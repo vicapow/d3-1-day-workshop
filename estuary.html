@@ -3,6 +3,7 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="node_modules/codemirror/theme/twilight.css">
+<link rel="stylesheet" href="node_modules/codemirror-inlet/inlet.css" type="text/css" media="screen"  title="no title" charset="utf-8">
 <style>
 html {
 
@@ -54,6 +55,7 @@ iframe.stage {
 <script src="node_modules/codemirror/lib/codemirror.js"></script>
 <script src="node_modules/codemirror/mode/javascript/javascript.js"></script>
 <script src="node_modules/codemirror/mode/xml/xml.js"></script>
+<script src="node_modules/codemirror-inlet/inlet.js"></script>
 <script src="scripts/beautify-html.js"></script>
 <script>
 'use strict'
@@ -124,6 +126,7 @@ function gotContent(content) {
   jsCM.on('change', function() {
     runCode()
   })
+  Inlet(jsCM);
 
   var htmlEditorContainer = main.append('div').classed('html-editor-container', true)
     .style({
@@ -241,7 +244,7 @@ function gotContent(content) {
       var blob = new Blob([template], {type: 'text/html'})
       blobUrl = URL.createObjectURL(blob)
       iframe.node().src = blobUrl
-  }, 500)
+  }, 100)
 
   main.append('button').classed('run-btn', true).text('clear and start over')
     .style({
