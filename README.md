@@ -33,3 +33,14 @@
  + Do you know what a HTTP GET request is?
 
 
+To run this project locally run:
+
+    npm install
+
+Then
+
+    node server.js
+
+To fire up the server. Now, pull up `http://localhost:3000` in your browser and you should be gtg!
+
+NOTE: that when running the project locally, any changes to the examples will be saved to the examples directory.
