@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<script src="/scripts/d3.v3.js"></script>
+<body></body>
+<script>
+var div = d3.select('body').append('div')
+d3.csv('/data/setosa.csv', function(err, data) {
+  if (err) {
+    // If there was an error, we want to know about it.
+    throw err;
+  }
+  console.log(data);
+});
+</script>
+</html>

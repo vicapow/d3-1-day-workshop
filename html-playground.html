@@ -96,8 +96,15 @@ function gotContent(content) {
         .post(template, function(err, res) {
           if(err) throw err
         })
-      template = template.replace('src="/scripts',
-        'src="http://localhost:3000/scripts')
+      template = template.replace(
+        '/scripts/d3.v3.js',
+        window.location.origin + '/scripts/d3.v3.js'
+      )
+
+      template = template.replace(
+        '/data/setosa.csv',
+        window.location.origin + '/data/setosa.csv'
+      )
       //remove the last instance
       window.URL.revokeObjectURL(blobUrl)
       var blob = new Blob([template], {type: 'text/html'})
