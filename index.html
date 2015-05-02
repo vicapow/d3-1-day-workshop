@@ -27,6 +27,25 @@ body > section {
   display: inline;
 }
 
+ul {
+  list-style: none;
+
+}
+
+a.h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+a.h2 {
+  font-size: 24px;
+  padding-left: 10px;
+}
+a.h3 {
+  font-size: 18px;
+  padding-left: 20px;
+}
+
+
 iframe {
   border: none;
   width: 1024px;
@@ -40,8 +59,11 @@ iframe {
   <h1>Intro to D3 workshop</h1>
   <p>This site is part of a d3.js workshop taking place <a href="https://docs.google.com/forms/d/1VgBUu7znZVllkVw2d6TISzsTjGDDviPF3vbo-Zlz6ME/viewform">May 2nd in San Francisco</a>. The workshop is geared towards people who are comfortable with data but haven't gotten deep into web programming. We only have 15 spots total and there will be 5 instructors/TAs supporting you.<a href="https://docs.google.com/forms/d/1VgBUu7znZVllkVw2d6TISzsTjGDDviPF3vbo-Zlz6ME/viewform">Click here to apply.</a> If you're accepted, the ticket costs $99.
   </p>
+  <section class="toc">
+    <ul></ul>
+  </section>
   <section>
-    <h2>This workshop is interactive!</h2>
+    <h3>This workshop is interactive!</h3>
     <p>
       Just like <a href="http://tributary.io">tributary.io</a>, the demos in this document are <a href="http://worrydream.com/ExplorableExplanations">explorable</a>! Any text section with a <b>black</b> background is editable. It's an "explorable workshop" and is not intended to stand alone but some may still find it useful. You can find the code for this page at on <a href="https://github.com/vicapow/d3-1-day-workshop">github</a>.
     </p>
@@ -49,11 +71,11 @@ iframe {
       Find the <a href="html-playground.html">fullscreen html playground here.</a>
     </p>
   </section>
-  <section>
+  <section class="toplevel">
     <span class="session-title">
-      <h3>Session 1</h3> - <span class="session-time">10am - 12pm</span>
+      <h1>Session 1</h1> - <span class="session-time">10am - 12pm</span>
     </span>
-    <section>
+    <section class="level2">
       <h2>Quick Intros</h2>
       <ul>
         <li>
@@ -83,7 +105,7 @@ iframe {
         </li>
       </ul>
     </section>
-    <section>
+    <section class="level2">
       <h2>Getting Excited</h2>
       <p>
         <ul>
@@ -93,12 +115,12 @@ iframe {
         </ul>
       </p>
     </section>
-    <section>
+    <section class="level2">
       <h2>The DOM</h2>
       <iframe style="height:600px" src="html-playground.html#hello-dom"></iframe>
     </section>
 
-    <section>
+    <section class="level2">
       
       <h2>SVG</h2>
 
@@ -161,7 +183,7 @@ iframe {
         <iframe style="height:320px" src="html-playground.html#hello-svg-g-recursve"></iframe>
       </section>
 
-      <h2>SVG Styles</h2>
+      <h3>SVG Styles</h3>
 
       <section>
         <p>
@@ -192,108 +214,109 @@ iframe {
       </section>
     </section>
 
-    <section>
-      
+    <section class="level2">
       <h2>JavaScript</h2>
 
-    <section>
-      <h3>With D3</h3>
-      <p>
-        JavaScript lets us change the DOM tree we created with SVG.
-      </p>
-      <iframe style="height:600px" src="html-playground.html#hello-javascript"></iframe>
-    </section>
+      <section>
+        <h3>With D3</h3>
+        <p>
+          JavaScript lets us change the DOM tree we created with SVG.
+        </p>
+        <iframe style="height:600px" src="html-playground.html#hello-javascript"></iframe>
+      </section>
 
-    <section>
-      <h3>Chainable APIs</h3>
-      <p>
-        Two examples in pseudo code of a non-chainable and chainable API 
-      </p>
-      <iframe style="height:600px" src="html-playground.html#chainable-api"></iframe>
-    </section>
+      <section>
+        <h3>Chainable APIs</h3>
+        <p>
+          Two examples in pseudo code of a non-chainable and chainable API 
+        </p>
+        <iframe style="height:600px" src="html-playground.html#chainable-api"></iframe>
+      </section>
 
-    <section>
-      <h3>selector.style()</h3>
-      <p>
-        We can now change SVG styles programmably
-      </p>
-      <iframe style="height:250px" src="html-playground.html#selector-style"></iframe>
-    </section>
+      <section>
+        <h3>selector.style()</h3>
+        <p>
+          We can now change SVG styles programmably
+        </p>
+        <iframe style="height:250px" src="html-playground.html#selector-style"></iframe>
+      </section>
 
-    <section>
-      <h3>selector.attr()</h3>
-      <p>
-        Same for SVG attributes
-      </p>
-      <iframe style="height:250px" src="html-playground.html#selector-attr"></iframe>
-    </section>
+      <section>
+        <h3>selector.attr()</h3>
+        <p>
+          Same for SVG attributes
+        </p>
+        <iframe style="height:250px" src="html-playground.html#selector-attr"></iframe>
+      </section>
 
-    <section>
-      <h3>accessors</h3>
-      <iframe style="height:300px" src="html-playground.html#selector-accessors"></iframe>
-    </section>
+      <section>
+        <h3>accessors</h3>
+        <iframe style="height:300px" src="html-playground.html#selector-accessors"></iframe>
+      </section>
 
-    <section>
-      <h3>JavaScript functions refresher</h3>
-      <iframe style="height:300px" src="html-playground.html#javascript-functions-as-objects"></iframe>
-    </section>
+      <section>
+        <h3>JavaScript functions refresher</h3>
+        <iframe style="height:300px" src="html-playground.html#javascript-functions-as-objects"></iframe>
+      </section>
 
-    <section>
-      <h3>Creating SVGs from scratch in JavaScript</h3>
-      <iframe style="height:600px" src="estuary.html#svg-from-javascript"></iframe>
-    </section>
+      <section>
+        <h3>Creating SVGs from scratch in JavaScript</h3>
+        <iframe style="height:600px" src="estuary.html#svg-from-javascript"></iframe>
+      </section>
 
-    <section>
-      <h3>selector.enter()</h3>
-      <p>
-        A new way of adding elements.
-      </p>
-      <p>
-        Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Selections#enter">selector.enter()</a>
-      </p>
-      <iframe style="height:600px" src="estuary.html#selector-enter"></iframe>
-    </section>
+      <section>
+        <h3>selector.enter()</h3>
+        <p>
+          A new way of adding elements.
+        </p>
+        <p>
+          Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Selections#enter">selector.enter()</a>
+        </p>
+        <iframe style="height:600px" src="estuary.html#selector-enter"></iframe>
+      </section>
 
-    <section>
-      <h3>Breaking down selector.enter()<h3>
-      <iframe style="height:600px" src="estuary.html#selector-enter-break-down"></iframe>
+      <section>
+        <h3>Breaking down selector.enter()</h3>
+        <iframe style="height:600px" src="estuary.html#selector-enter-break-down"></iframe>
 
-    </section>
+      </section>
 
-    <section>
-      <h2>Transitions</h2>
-      <p>
-        Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Transitions">transitions</a>
-      </p>
-      <iframe style="height:600px" src="estuary.html#transitions-intro"></iframe>
-    </section>
+      <section>
+        <h3>Transitions</h3>
+        <p>
+          Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Transitions">transitions</a>
+        </p>
+        <iframe style="height:600px" src="estuary.html#transitions-intro"></iframe>
+      </section>
 
-    <section>
-      <h2>Chaining transitions</h2>
-      <iframe style="height:600px" src="estuary.html#transitions-chaining"></iframe>
-    </section>
+      <section>
+        <h3>Chaining transitions</h3>
+        <iframe style="height:600px" src="estuary.html#transitions-chaining"></iframe>
+      </section>
 
-    <section>
-      <h2>data binding and transitions</h2>
-      <p>
-        Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Arrays#d3_range">d3.range()</a>
-      </p>
-      <iframe style="height:600px" src="estuary.html#data-binding-and-transitions"></iframe>
+      <section>
+        <h2>data binding and transitions</h2>
+        <p>
+          Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Arrays#d3_range">d3.range()</a>
+        </p>
+        <iframe style="height:600px" src="estuary.html#data-binding-and-transitions"></iframe>
+      </section>
     </section>
   </section>
-  <section>
+
+  <section class="toplevel">
     <span class="session-title">
-      <h3>Lunch</h3> - <span class="session-time">12pm - 12:45pm</span>
+      <h1>Lunch</h1> - <span class="session-time">12pm - 12:45pm</span>
     </span>
     <section>
         <p>Time to eat!</p>
     </section>
   </section>
-  <section>
+  <section class="toplevel">
     <span class="session-title">
-      <h3>Session 2</h3> - <span class="session-time">12:45pm - 2:15pm</span>
+      <h1>Session 2</h1> - <span class="session-time">12:45pm - 2:15pm</span>
     </span>
-    <section>
+    <section class="level2">
       <h2>Data</h2>
       <section>
         <h3>Getting data into the browser</h3>
@@ -410,18 +433,20 @@ console.log(path);
     </section>
 
   </section>
+  </section>
   <section>
     <span class="session-title">
-      <h3>Break</h3> - <span class="session-time">2:15pm - 2:30pm</span>
+      <h1>Break</h1> - <span class="session-time">2:15pm - 2:30pm</span>
       <section>
         <p>
           Chillax
         </p>
+      </section>
     </span>
   </section>
-  <section>
+  <section class="toplevel">
     <span class="session-title">
-      <h3>Session 3</h3> - <span class="session-time">2:30pm - 4:00pm</span>
+      <h1>Session 3</h1> - <span class="session-time">2:30pm - 4:00pm</span>
     </span>
     <section>
       <p>
@@ -498,6 +523,65 @@ d3.selectAll('.code-mirror').each(function() {
   })
   cm.setSize.apply(cm, dim)
 })
+
+// add anchor links
+function anchorify(text) {
+  return text.replace(/ /, '-').toLowerCase()
+}
+
+var toc = []
+var sections = d3.selectAll(".toplevel").each(function() {
+  console.log("dis", this)
+  var dis = d3.select(this);
+  dis.selectAll("h1")
+  .attr("id", function(d) { 
+    console.log("this", this)
+    var id = anchorify(this.innerText)
+    toc.push({type: "h1", id: id, text: this.innerText})
+    return id
+  })
+  /*
+  dis.selectAll("h2")
+    .attr("id", function(d) { 
+      var id = anchorify(this.innerText)
+      toc.push({type: "h2", id: id, text: this.innerText})
+      return id
+    })
+  dis
+  .selectAll("h3")
+    .attr("id", function(d) { 
+      var id = anchorify(this.innerText)
+      toc.push({type: "h3", id: id, text: this.innerText})
+      return id
+    })
+*/
+  dis.selectAll("section.level2").each(function() {
+    var dis2 = d3.select(this)
+    dis2.selectAll("h2")
+    .attr("id", function(d) { 
+      var id = anchorify(this.innerText)
+      toc.push({type: "h2", id: id, text: this.innerText})
+      return id
+    })
+    dis2.selectAll("h3")
+    .attr("id", function(d) { 
+      var id = anchorify(this.innerText)
+      toc.push({type: "h3", id: id, text: this.innerText})
+      return id
+    })
+  })
+})
+console.log(toc)
+d3.select(".toc ul").selectAll("li")
+.data(toc)
+.enter()
+.append("li")
+.append("a")
+.attr({
+  href: function(d) { return "#" + d.id },
+  class: function(d) { return d.type}
+})
+.text(function(d) { return d.text})
 
   </script>
 </body>
