@@ -31,7 +31,7 @@ var x = d3.scale.linear()
   .range([margin.left, width - margin.right]);
 
 var y = d3.scale.linear()
-	.domain([0, schedule.length - 0.5])
+  .domain([0, schedule.length - 0.5])
   .range([margin.top, height - margin.bottom]);
 
 var axis = d3.svg.axis().scale(x)
@@ -48,9 +48,9 @@ svg.append('g')
     'shape-rendering': 'crispEdges',
   })
   .call(axis)
-	.selectAll('text')
+  .selectAll('text')
   .style({
-  	fill: 'black',
+    fill: 'black',
   	stroke: 'none',
   	'font-size': '12px'
 	});
