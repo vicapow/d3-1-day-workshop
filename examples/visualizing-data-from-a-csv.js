@@ -3,7 +3,7 @@ var height = 600;
 var svg = d3.select('body').append('svg')
   .attr({width: width, height: height});
 
-d3.csv('/data/setosa.csv', function(err, data) {
+d3.csv('/data/iris.csv', function(err, data) {
   if (err) { throw err; }
   var species = d3.nest()
     .key(function(d) { return d.species; })

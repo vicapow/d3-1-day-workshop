@@ -4,7 +4,7 @@ var svg = d3.select('body').append('svg')
   .attr({width: width, height: height});
 var color = d3.scale.category10();
 
-d3.csv('/data/setosa.csv', function(err, data) {
+d3.csv('/data/iris.csv', function(err, data) {
   if (err) { throw err; }
   // convert string properties to numbers.
   data.forEach(function(d) {
@@ -30,9 +30,9 @@ d3.csv('/data/setosa.csv', function(err, data) {
         cx: function(d) {
           return scale(d.sepalLength);
         },
-    		cy: function(d, i) { return 3 * i + 30; },
+        cy: function(d, i) { return 3 * i + 30; },
        }).style({
-    		fill: function(d) { return color(d.species); },
-  		});
+        fill: function(d) { return color(d.species); },
+      });
 });
 

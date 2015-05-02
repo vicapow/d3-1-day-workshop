@@ -86,7 +86,11 @@ iframe {
     <section>
       <h2>Getting Excited</h2>
       <p>
-        [TODO: collect demos]
+        <ul>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock">bl.ocks.org/mbostock</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/syntagmatic">bl.ocks.org/syntagmatic</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/curran">bl.ocks.org/curran</a></li>
+        </ul>
       </p>
     </section>
     <section>
@@ -290,7 +294,7 @@ iframe {
       <h3>Session 2</h3> - <span class="session-time">12:45pm - 2:15pm</span>
     </span>
     <section>
-      <h2>Loading data</h2>
+      <h2>Data</h2>
       <section>
         <h3>Getting data into the browser</h3>
         <p>
@@ -370,7 +374,7 @@ console.log(path);
         </p>
     </section>
     <section>
-      <h3>(Linear) Scales</h3>
+      <h3>(Linear) scales</h3>
       <p>
         Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Quantitative-Scales">d3.scales.linear()</a>
       </p>
@@ -385,6 +389,11 @@ console.log(path);
     </section>
 
     <section>
+      <h3>The schedule for this workshop</h3>
+      <iframe style="height:600px" src="estuary.html#worksho-schedule"></iframe>
+    </section>
+
+    <section>
       <h3>Creating a histogram</h3>
       <p>
         Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Histogram-Layout">d3.layout.histogram()</a>
@@ -393,11 +402,11 @@ console.log(path);
     </section>
 
     <section>
-      <h3>Scatterplot Matrix</h3>
+      <h3>Scatterplot matrix</h3>
       <p>
-        See the original on <a target="_blank" href="http://bl.ocks.org/mbostock/3213173">bl.ocks.org</a>
+        See the original by <a target="_blank" href="twitter.com/mbostock">Mike Bostock</a> on <a target="_blank" href="http://bl.ocks.org/mbostock/3213173">bl.ocks.org</a>
       </p>
-      <iframe style="height:600px" src="html-playground.html#iris-scatterplot-matrix"></iframe>
+      <iframe style="height:650px" src="html-playground.html#iris-scatterplot-matrix"></iframe>
     </section>
 
   </section>
@@ -415,28 +424,56 @@ console.log(path);
       <h3>Session 3</h3> - <span class="session-time">2:30pm - 4:00pm</span>
     </span>
     <section>
-      <h2>Interactions</h2>
-    </section>
-    <section>
-      <h2>Layouts as data transformations</h2>
-      <section>
-        <h4>Treemaps</h4>
-      </section>
-      <section>
-        <h4>Force layouts</h4>
-      </section>
-      <section>
-        <h4>Nesting</h4>
-      </section>
-      <section>
-        <h4>Histograms</h4>
-      </section>
-    </section>
+      <p>
+        <h3>Using D3 locally with a python web server</h3>
+      </p>
+      <p>
+        Now that we know enough D3 to get by, let's setup a D3 project outside of this workshop. (If your computer doesn't already have python, you can download it from: <a target="_blank" href="https://www.python.org/downloads/"> here</a>.)
+      </p>
+      <p>
+        <b>python -m SimpleHTTPServer</b>
+      <p>
+      <p>
+        This will start up a local webserver that you can access at: <a target="_blank" href="http://localhost:8000/">http://localhost:8000/</a>. This your own little private website that only you can access.
+      </p>
+      <p>
+        Any scripts or data files you load will need to be relative to the directory your server is running from. If we ran our server from <b>~/Documents/projects/workshop</b> and we had a file called <b>setosa.csv</b> in it, we could load it by using: <b>d3.csv('/setosa.csv', ...);</b>.
+      </p>
+      <p>
+        The remaining workshop will be more open ended. Pick a data set below to try and visualize.
+        <ul>
+          <li><a target="_blank" href="https://github.com/fivethirtyeight/data">https://github.com/fivethirtyeight/data</a></li>
+          <li><a target="_blank" href="https://github.com/fivethirtyeight/data">https://github.com/curran/data</a></li>
+        </ul>
+        Here are a few blocks to use as inspiration.
+        <ul>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/29cc3cc4078091fd2115">state grid</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/9490313">Small Multiples II</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/7586334">Parallel Coordinates</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/6645441">Treemap Padding</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/3885211">Stacked Area Chart</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/3886394">Normalized Stacked Bar Chart</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/3885304">Bar Chart</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/3884914">Bivariate Area Chart</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/3887051">Grouped Bar Chart</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/3887118">Scatterplot</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/3886208">Stacked Bar Chart</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/3719724">Sortable Table with Bars</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/3202354">Heatmap (2D Histogram, CSV)</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/1846692">Automatic Text Sizing</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/1584697">Sortable Bar Chart</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/1389927">A Bar Chart</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/1341021">Parallel Coordinates</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/1046712">Chord Diagram</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/1306365">Sunburst with Distortion</a></li>
+          <li><a target="_blank" href="http://bl.ocks.org/mbostock/582915">Streamgraph</a></li>
+        </ul>
+      </p>
     </section>
   </section>
   <section>
-    <h2>Estuary Playground</h2>
-    <iframe style="height:600px" src="estuary.html#flower"></iframe>
+    <h2>Playground</h2>
+    <iframe style="height:600px" src="estuary.html#playground-init"></iframe>
   </section>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

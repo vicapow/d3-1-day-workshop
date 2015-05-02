@@ -4,7 +4,7 @@ var svg = d3.select('body').append('svg')
   .attr({width: width, height: height})
   .style('shape-rendering', 'crispEdges');
 
-d3.csv('/data/setosa.csv', function(err, data) {
+d3.csv('/data/iris.csv', function(err, data) {
   if (err) { throw err; }
   convertPropsToNumbers(data);
   var domain = d3.extent(data, function(d) {
@@ -33,46 +33,46 @@ d3.csv('/data/setosa.csv', function(err, data) {
     .data(layoutData)
     .enter().append('g')
       .attr('class', 'bar')
-    	.attr('transform', function(d) {
+      .attr('transform', function(d) {
         return 'translate(' +
           scaleX(d.x) + ',' + scaleY(d.y)
         + ')';
       });
 
-	bar.append('rect')
+  bar.append('rect')
     .attr('width', function(d) {
       return scaleX(d.y + d.dx) - scaleX(d.y) - 1;
     })
     .attr('height', function(d) {
-    	return scaleY.range()[0] - scaleY(d.y);
-  	}).style('fill', '#e67e22');
+      return scaleY.range()[0] - scaleY(d.y);
+    }).style('fill', '#e67e22');
   
   var xTickValues = layoutData
-  	.map(function(d) { return d.x; });
+    .map(function(d) { return d.x; });
   
   var axisX = svg.append('g')
-  	.attr('transform', 'translate(0, 500)')
+    .attr('transform', 'translate(0, 500)')
     .call(d3.svg.axis()
-  	.scale(scaleX).tickValues(xTickValues))
-  	.call(styleAxis)
-  	.append('text')
+    .scale(scaleX).tickValues(xTickValues))
+    .call(styleAxis)
+    .append('text')
       .attr('transform', 'translate(256, 40)')
       .style('text-anchor', 'middle')
       .text('sepal length');
 
-	var axisY = svg.append('g')
-  	.attr('transform', 'translate(30, 0)')
-  	.call(d3.svg.axis().scale(scaleY).orient('left'))
-  	.call(styleAxis);
+  var axisY = svg.append('g')
+    .attr('transform', 'translate(30, 0)')
+    .call(d3.svg.axis().scale(scaleY).orient('left'))
+    .call(styleAxis);
 
 });
 
 function styleAxis(axis) {
   axis.selectAll('path')
     .style('fill', 'none')
-  	.style('stroke', 'black');
+    .style('stroke', 'black');
   axis.selectAll('line')
-  	.style('stroke', 'black');
+    .style('stroke', 'black');
   axis.selectAll('text').style('font-size', 12);
 }
 
@@ -81,7 +81,7 @@ function convertPropsToNumbers(data) {
   data.forEach(function(d) {
     for(prop in d) {
       if (prop !== 'species') {
-      	d[prop] = Number(d[prop]);
+        d[prop] = Number(d[prop]);
       }
     }
   });

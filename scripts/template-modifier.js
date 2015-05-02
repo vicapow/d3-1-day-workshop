@@ -5,8 +5,8 @@ function templateModifier(template) {
     window.location.origin + '/scripts/d3.v3.js'
   )
   template = template.replace(
-    '/data/setosa.csv',
-    window.location.origin + '/data/setosa.csv'
+    '/data/iris.csv',
+    window.location.origin + '/data/iris.csv'
   )
   return template
 }
