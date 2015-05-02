@@ -10,7 +10,7 @@ var margin = {
 
 var svg = d3.select('body').append('svg')
   .attr({width: width + 'px', height: height + 'px'})
-	.style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif");
+  .style('font-family', "'Helvetica Neue', Helvetica, Arial, sans-serif");
 
 var schedule = [
   {start: 9, end: 10, label: 'Coffee and Pasteries', type: 'break'},
