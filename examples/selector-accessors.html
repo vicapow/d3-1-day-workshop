@@ -1,0 +1,18 @@
+<svg width="500" height="280">
+  <g transform="translate(250, 65)">
+    <circle r="35" cy="0" style="fill: #e74c3c" />
+    <circle r="35" cy="70" style="fill: #f1c40f" />
+    <circle r="35" cy="140" style="fill: #2ecc71" />
+  </g>
+</svg>
+<script src="/scripts/d3.v3.js"></script>
+<script>
+var circles = d3.selectAll('circle')
+	.style('opacity', function(d, i) {
+    if (i === 2) {
+      return 1;
+    } else {
+      return 0.2;
+    }
+  });
+</script>

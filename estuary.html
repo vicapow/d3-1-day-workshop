@@ -52,6 +52,7 @@ iframe.stage {
 <script id="d3-script-tag" src="scripts/d3.v3.js"></script>
 <script src="scripts/d3.selection.dispatcher.js"></script>
 <script src="scripts/debounce.js"></script>
+<script src="scripts/template-modifier.js"></script>
 <script src="node_modules/codemirror/lib/codemirror.js"></script>
 <script src="node_modules/codemirror/mode/javascript/javascript.js"></script>
 <script src="node_modules/codemirror/mode/xml/xml.js"></script>
@@ -207,7 +208,8 @@ function gotContent(content) {
   var blobUrl
   var runCode = debounce(function runCode() {
       if (!gotAllScripts) return
-      var code = jsCM.getValue()
+      var originalCode = jsCM.getValue()
+      var code = templateModifier(originalCode)
       var template = '<!DOCTYPE html>\n'
         + '<body></body>\n'
         + '<' + 'meta charset="utf-8">\n'
@@ -236,7 +238,7 @@ function gotContent(content) {
       if (slug)
         d3.xhr('./examples/' + slug + '.js')
           .header('Content-Type', 'text/javascript')
-          .post(code, function(err, res) {
+          .post(originalCode, function(err, res) {
             if(err) throw err
           })
       //remove the last instance
@@ -246,7 +248,7 @@ function gotContent(content) {
       iframe.node().src = blobUrl
   }, 100)
 
-  main.append('button').classed('run-btn', true).text('clear and start over')
+  main.append('button').classed('run-btn', true).text('rerun')
     .style({
       right: width / 2 + 'px',
       bottom: height / 2 + 'px',

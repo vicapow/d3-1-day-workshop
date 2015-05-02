@@ -32,8 +32,4 @@ svg.selectAll('circle').data(d3.range(100))
       ]
       return 'translate(' + pos + ')'
     },
-  }).style({
-    'fill-opacity': 0.4,
-  })
-
-
+  }).style('fill-opacity', 0.4);

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <script src="/scripts/d3.v3.js"></script>
+  <body>
+    <script>
+var width = 500;
+var height = 550;
+var svg = d3.select('body').append('svg')
+  .attr({width: width, height: height});
+
+// Background
+svg.append('rect')
+  .attr({width: width, height: height})
+  .style('fill', '#3498db');
+
+var numColumns = 10;
+var numRows = 8;
+var num = numColumns * numRows;
+var data = d3.range(num).map(function(i) {
+  return {
+    row: i % numColumns,
+    col: Math.floor(i / numColumns),
+	}
+});
+
+svg.selectAll('circle').data(data)
+	.enter()
+	.append('circle')
+    .style({
+      fill: '#2ecc71',
+      stroke: '#2980b9',
+      'stroke-width': 10,
+    })
+    .attr({
+      cx: function(d) {
+        return d.row * width / numColumns + 25
+      },
+      cy: function(d) {
+        return d.col * 50 + 110
+      },
+      r: 25,
+		});
+      
+    </script>
+  </body>
+</html>

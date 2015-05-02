@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<script src="/scripts/d3.v3.js"></script>
+<body></body>
+<script>
+
+d3.csv('/data/setosa.csv', function(err, data) {
+  if (err) { throw err; }
+  var species = d3.nest()
+    .key(function(d) { return d.species })
+    .entries(data);
+  species.forEach(function(specii) {
+    specii.meanSepalLength = d3.mean(specii.values, 					function(d) { return d.sepalLength});
+  });
+  var showProps = ['meanSepalLength'];
+	var text = JSON.stringify(species, showProps, 2);
+  d3.select('body').append('code')
+  	.append('pre')
+    .text(text);
+});
+</script>
+</html>

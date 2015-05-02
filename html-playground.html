@@ -23,6 +23,7 @@ iframe {
 </body>
 <script src="scripts/d3.v3.js"></script>
 <script src="scripts/debounce.js"></script>
+<script src="scripts/template-modifier.js"></script>
 <script src="node_modules/codemirror/lib/codemirror.js"></script>
 <script src="node_modules/codemirror/mode/javascript/javascript.js"></script>
 <script src="node_modules/codemirror/mode/xml/xml.js"></script>
@@ -99,15 +100,7 @@ function gotContent(content) {
         .post(template, function(err, res) {
           if(err) throw err
         })
-      template = template.replace(
-        '/scripts/d3.v3.js',
-        window.location.origin + '/scripts/d3.v3.js'
-      )
-
-      template = template.replace(
-        '/data/setosa.csv',
-        window.location.origin + '/data/setosa.csv'
-      )
+      template = templateModifier(template)
       //remove the last instance
       window.URL.revokeObjectURL(blobUrl)
       var blob = new Blob([template], {type: 'text/html'})

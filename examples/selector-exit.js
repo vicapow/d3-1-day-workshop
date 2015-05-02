@@ -11,8 +11,8 @@ var circles = g.selectAll('circle').data(colors)
     .style('fill', function(d) { return d; })
     .transition()
     .duration(250)
-    .delay(function(d, i) { return i * 100; })
-    .attr({
+		.delay(function(d, i) { return i * 100 })
+		.attr({
       r: 35,
       cy: function(d, i) { return i * 70; }
     });

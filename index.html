@@ -2,6 +2,8 @@
 <html>
 <meta charset="utf-8">
 <link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="node_modules/codemirror/theme/twilight.css">
 <style>
 * {
   box-sizing: border-box;
@@ -31,18 +33,20 @@ iframe {
 }
 </style>
 <script src="scripts/d3.v3.js"></script>
+<script src="node_modules/codemirror/lib/codemirror.js"></script>
+<script src="node_modules/codemirror/mode/javascript/javascript.js"></script>
+<script src="node_modules/codemirror/mode/xml/xml.js"></script>
 <body>
   <h1>Intro to D3 workshop</h1>
   <p>This site is part of a d3.js workshop taking place <a href="https://docs.google.com/forms/d/1VgBUu7znZVllkVw2d6TISzsTjGDDviPF3vbo-Zlz6ME/viewform">May 2nd in San Francisco</a>. The workshop is geared towards people who are comfortable with data but haven't gotten deep into web programming. We only have 15 spots total and there will be 5 instructors/TAs supporting you.<a href="https://docs.google.com/forms/d/1VgBUu7znZVllkVw2d6TISzsTjGDDviPF3vbo-Zlz6ME/viewform">Click here to apply.</a> If you're accepted, the ticket costs $99.
   </p>
-  <p>
-    <span style="font-size: 20px;font-weight: bold">NOTE: This is a work in progress.</span>
-    We'll be updating this document through the week up until the workshop.
-  </p>
   <section>
     <h2>This workshop is interactive!</h2>
     <p>
-      Just like <a href="http://tributary.io">tributary.io</a>, the demos in this document are <a href="http://worrydream.com/ExplorableExplanations">explorable</a>! Any text section with a <b>black</b> background is editable. This is an "explorable workshop" and is not intended to stand alone but some may still find it useful.
+      Just like <a href="http://tributary.io">tributary.io</a>, the demos in this document are <a href="http://worrydream.com/ExplorableExplanations">explorable</a>! Any text section with a <b>black</b> background is editable. It's an "explorable workshop" and is not intended to stand alone but some may still find it useful. You can find the code for this page at on <a href="https://github.com/vicapow/d3-1-day-workshop">github</a>.
+    </p>
+    <p>
+      D3 makes building data visualizations for the web <i>way</i> easier. Learning D3 is 70 percent learning about web programming.
     </p>
   </section>
   <section>
@@ -196,10 +200,6 @@ iframe {
       <iframe style="height:600px" src="html-playground.html#hello-javascript"></iframe>
     </section>
 
-    <p>
-      From here on out, we wont be writing anymore SVG by hand.
-    </p>
-
     <section>
       <h3>Chainable APIs</h3>
       <p>
@@ -209,22 +209,71 @@ iframe {
     </section>
 
     <section>
+      <h3>selector.style()</h3>
+      <p>
+        We can now change SVG styles programmably
+      </p>
+      <iframe style="height:250px" src="html-playground.html#selector-style"></iframe>
+    </section>
+
+    <section>
+      <h3>selector.attr()</h3>
+      <p>
+        Same for SVG attributes
+      </p>
+      <iframe style="height:250px" src="html-playground.html#selector-attr"></iframe>
+    </section>
+
+    <section>
+      <h3>accessors</h3>
+      <iframe style="height:300px" src="html-playground.html#selector-accessors"></iframe>
+    </section>
+
+    <section>
+      <h3>JavaScript functions refresher</h3>
+      <iframe style="height:300px" src="html-playground.html#javascript-functions-as-objects"></iframe>
+    </section>
+
+    <section>
       <h3>Creating SVGs from scratch in JavaScript</h3>
       <iframe style="height:600px" src="estuary.html#svg-from-javascript"></iframe>
     </section>
 
     <section>
-      <h2>Intro to transition</h2>
+      <h3>selector.enter()</h3>
+      <p>
+        A new way of adding elements.
+      </p>
+      <p>
+        Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Selections#enter">selector.enter()</a>
+      </p>
+      <iframe style="height:600px" src="estuary.html#selector-enter"></iframe>
+    </section>
+
+    <section>
+      <h3>Breaking down selector.enter()<h3>
+      <iframe style="height:600px" src="estuary.html#selector-enter-break-down"></iframe>
+
+    </section>
+
+    <section>
+      <h2>Transitions</h2>
+      <p>
+        Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Transitions">transitions</a>
+      </p>
       <iframe style="height:600px" src="estuary.html#transitions-intro"></iframe>
     </section>
 
     <section>
-      <h3>Transitions</h3>
-      <iframe style="height:600px" src="estuary.html#the-dom-and-javascript"></iframe>
+      <h2>Chaining transitions</h2>
+      <iframe style="height:600px" src="estuary.html#transitions-chaining"></iframe>
     </section>
 
     <section>
       <h2>data binding and transitions</h2>
+      <p>
+        Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Arrays#d3_range">d3.range()</a>
+      </p>
       <iframe style="height:600px" src="estuary.html#data-binding-and-transitions"></iframe>
     </section>
   </section>
@@ -241,18 +290,116 @@ iframe {
       <h3>Session 2</h3> - <span class="session-time">12:45pm - 2:15pm</span>
     </span>
     <section>
-      <h2>Loading data and servers</h2>
+      <h2>Loading data</h2>
       <section>
         <h3>Getting data into the browser</h3>
-        <iframe style="height:600px" src="html-playground.html#getting-data-into-the-browser"></iframe>
+        <p>
+          Assuming our server has a <a target="_blank" href="/data/setosa.csv">/data/setosa.csv</a> file.
+        </p>
+        <p>
+          Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/CSV">d3.csv()</a>, <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify">JSON.stringify()</a>
+        </p>
+        <iframe style="height:300px" src="html-playground.html#getting-data-into-the-browser"></iframe>
       </section>
+      <section>
+        <h3>Manipulating data</h3>
+        <p>
+          Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Arrays#d3_nest">d3.nest()</a>
+        </p>
+        <iframe style="height:600px" src="html-playground.html#using-data-in-visualizations"></iframe>
+      </section>
+      <section>
+        <h3>Visualizing data using layouts</h3>
+        <p>
+          Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Pie-Layout">d3.layout.pie()</a>,
+          <a target="_blank" href="https://github.com/mbostock/d3/wiki/SVG-Shapes#arc">d3.svg.arc()</a>
+        </p>
+        <iframe style="height:600px" src="estuary.html#visualizing-data-from-a-csv"></iframe>
+      </section>
+      <section>
+        <h3>Breaking down d3.layout.pie()</h3>
+        <textarea class="code-mirror js" style="width: 1024px;height: 100px">
+var people = [{name: 'Miles', score: 10}, {name: 'Shirley', score: 20}];
+var pieLayout = d3.layout.pie().value(function(d) { return d.score; })(people);
+console.log(JSON.stringify(pieLayout, null, 2));
+        </textarea>
+        <p>
+          The result
+        </p>
+        <textarea class="code-mirror js" style="width: 1024px;height: 400px">
+[
+  {
+    "data": {
+      "name": "Miles",
+      "score": 10
+    },
+    "value": 10,
+    "startAngle": 4.1887902047863905,
+    "endAngle": 6.283185307179586,
+    "padAngle": 0
+  },
+  {
+    "data": {
+      "name": "Shirley",
+      "score": 20
+    },
+    "value": 20,
+    "startAngle": 0,
+    "endAngle": 4.1887902047863905,
+    "padAngle": 0
+  }
+]
+        </textarea>
+      </section>
+      <section>
+        <h3>Breaking down d3.svg.arc()</h3>
+        <textarea class="code-mirror js" style="width: 1024px;height: 100px">
+// An `arc` creating function.
+var arc = d3.svg.arc().innerRadius(0).outerRadius(100)
+var path = arc(pieLayout[0]);
+console.log(path);
+        </textarea>
+        <p>
+          The result
+        </p>
+        <textarea class="code-mirror" style="width: 1024px; height: 100px">
+"M-86.60254037844385,50.000000000000036A100,100 0 0,1 -1.8369701987210297e-14,-100L0,0Z"
+        </textarea>
+        <p>
+"A shape generator, such as that returned by d3.svg.arc, is both an object and a function. That is: you can call the shape like any other function, and the shape has additional methods that change its behavior. Like other classes in D3, shapes follow the method chaining pattern where setter methods return the shape itself, allowing multiple setters to be invoked in a concise statement." - <a target="_blank" href="https://github.com/mbostock/d3/wiki/SVG-Shapes">D3 Documentation</a>
+        </p>
     </section>
     <section>
-      <h2>Data binding (Enter / update / exit)</h2>
+      <h3>(Linear) Scales</h3>
+      <p>
+        Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Quantitative-Scales">d3.scales.linear()</a>
+      </p>
+      <iframe style="height:600px" src="estuary.html#scales-linear"></iframe>
     </section>
     <section>
-      <h2>Scales (are useful when you have data)</h2>
+      <h3>Axis</h3>
+      <p>
+        Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/SVG-Axes#axis">d3.svg.axis()</a>
+      </p>
+      <iframe style="height:600px" src="estuary.html#simple-axis"></iframe>
     </section>
+
+    <section>
+      <h3>Creating a histogram</h3>
+      <p>
+        Documentation: <a target="_blank" href="https://github.com/mbostock/d3/wiki/Histogram-Layout">d3.layout.histogram()</a>
+      </p>
+      <iframe style="height:600px" src="estuary.html#simple-histogram"></iframe>
+    </section>
+
+    <section>
+      <h3>Scatterplot Matrix</h3>
+      <p>
+        See the original on <a target="_blank" href="http://bl.ocks.org/mbostock/3213173">bl.ocks.org</a>
+      </p>
+      <iframe style="height:600px" src="html-playground.html#iris-scatterplot-matrix"></iframe>
+    </section>
+
   </section>
   <section>
     <span class="session-title">
@@ -298,6 +445,23 @@ iframe {
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
     ga('create', 'UA-11200159-17', 'vicapow.github.io');
     ga('send', 'pageview');
+  </script>
+  <script>
+
+d3.selectAll('.code-mirror').each(function() {
+  var dim = [this.clientWidth, this.clientHeight]
+  var js = d3.select(this).classed('js')
+  var cm = CodeMirror.fromTextArea(this, {
+    tabSize: 2,
+    mode: js ? 'javascript' : 'htmlmixed',
+    lineNumbers: true,
+    // theme: 'twilight',
+    lineWrapping: true,
+    readOnly: true,
+  })
+  cm.setSize.apply(cm, dim)
+})
+
   </script>
 </body>
 </html>

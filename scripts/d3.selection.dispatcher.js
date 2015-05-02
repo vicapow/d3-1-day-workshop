@@ -21,8 +21,16 @@ var d3SelectionDispatcher = d3.dispatch('afterSelection')
   var d3_selection_prototype_transition = d3.selection.prototype.transition
   d3.selection.prototype.transition = function() {
     var transition = d3_selection_prototype_transition.apply(this, arguments)
-    transition.each('end', function() {
-      console.log('transition end!')
+    transition.each('end.__selection_dispatcher', function() {
+      selectionUpdateHook(d3.select(this))
+    })
+    return transition
+  }
+
+  var d3_transition_prototype_transition = d3.transition.prototype.transition
+  d3.transition.prototype.transition = function() {
+    var transition = d3_transition_prototype_transition.apply(this, arguments)
+    transition.each('end.__selection_dispatcher', function() {
       selectionUpdateHook(d3.select(this))
     })
     return transition

@@ -1,0 +1,17 @@
+<body>
+  <code><pre></pre></code>
+</body>
+<script src="/scripts/d3.v3.js"></script>
+<script>
+  var people = [
+    {name: 'Ian'},
+    {name: 'Shirley'},
+    {name: 'Curran'},
+    {name: 'Miles'}
+  ];
+  var names = people.map(function(d, i) {
+    return 'Person: ' + d.name + ', num: ' + i;
+  });
+  // Show the output.
+  d3.select('pre').text(JSON.stringify(names, null, 2));
+</script>
