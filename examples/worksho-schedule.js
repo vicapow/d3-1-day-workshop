@@ -27,7 +27,7 @@ function color(type) {
 }
 
 var x = d3.scale.linear()
-	.domain([9, 16])
+  .domain([9, 16])
   .range([margin.left, width - margin.right]);
 
 var y = d3.scale.linear()
